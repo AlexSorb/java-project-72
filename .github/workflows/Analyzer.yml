@@ -1,1 +1,36 @@
+name: Analyzer
 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  java-project-72:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4.2.1
+
+      - name: Setup Java
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3.5.0
+
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v9.0.0
+        env:
+          # Set CC_TEST_REPORTER_ID as secret of your repo
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          JACOCO_SOURCE_PATH: app/src/main/java
+        with:
+          # The report file must be there, otherwise Code Climate won't find
+          coverageCommand: make -C app report
+          coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
