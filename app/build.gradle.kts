@@ -1,6 +1,9 @@
 plugins {
-    id("java")
+    java
+    application
     checkstyle
+    jacoco
+    id("io.freefair.lombok") version "8.12.2"
 }
 
 group = "hexlet.code"
@@ -17,4 +20,12 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+        csv.required = false
+    }
 }
