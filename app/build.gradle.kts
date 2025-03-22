@@ -2,7 +2,7 @@ plugins {
     application
     checkstyle
     jacoco
-    id("io.freefair.lombok") version "8.12.2"
+    id("io.freefair.lombok") version "8.13"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -24,6 +24,7 @@ dependencies {
     implementation("io.javalin:javalin-rendering:6.1.3")
     implementation("gg.jte:jte:3.1.9")
     implementation("com.zaxxer:HikariCP:6.2.1")
+    implementation("com.h2database:h2:2.3.232")
 
 
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
