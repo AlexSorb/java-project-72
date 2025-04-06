@@ -5,6 +5,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
 
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import io.javalin.rendering.template.JavalinJte;
+import gg.jte.resolve.ResourceCodeResolver;
+
 public class App {
 
     public static final String PORT_NAME = "PORT";
@@ -32,6 +37,7 @@ public class App {
 
         var app = Javalin.create(javalinConfig -> {
             javalinConfig.bundledPlugins.enableDevLogging();
+            javalinConfig.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
 
@@ -42,5 +48,12 @@ public class App {
     public static int getPort(String portName) {
         String port = System.getenv().getOrDefault(portName, DEFAULT_PORT);
         return Integer.parseInt(port);
+    }
+
+    private static TemplateEngine createTemplateEngine() {
+        ClassLoader classLoader = App.class.getClassLoader();
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
+        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
+        return templateEngine;
     }
 }
