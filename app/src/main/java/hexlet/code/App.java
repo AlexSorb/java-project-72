@@ -17,6 +17,13 @@ public class App {
     public static final String JDBC_URL_DEFAULT = "jdbc:h2:mem:project";
     public static final String JDBC_URL_NAME = "JDBC_DATABASE_URL";
 
+    private static HikariConfig config = new HikariConfig();
+    private static HikariDataSource dataSource;
+
+    static {
+        config.setJdbcUrl("");
+    }
+
 
     public static void main(String[] args) {
 
