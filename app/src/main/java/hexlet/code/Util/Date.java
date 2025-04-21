@@ -8,11 +8,11 @@ public class Date {
     }
 
     public static String getUserName() {
-        return System.getenv().getOrDefault("user", "jdbc:h2:mem:project");
+        return System.getenv().getOrDefault("user", "");
     }
 
     public static String getPassword() {
-        return System.getenv().getOrDefault("password", "jdbc:h2:mem:project");
+        return System.getenv().getOrDefault("password", "");
     }
 
 }
