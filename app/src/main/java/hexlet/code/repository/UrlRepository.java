@@ -29,7 +29,6 @@ public class UrlRepository extends BaseRepository {
                 throw new SQLException("Database has not returned an id after saving an entity");
             }
         }
-
     }
 
     public static Optional<Url> findById(Long id) throws SQLException {
@@ -54,8 +53,8 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
-    public static List<Url> show() throws SQLException {
-        String sql = "SELECT * FORM urls";
+    public static List<Url> getEntities() throws SQLException {
+        String sql = "SELECT * FROM urls";
         var listUrls = new ArrayList<Url>();
 
         try(var connection = dataSource.getConnection(); var statement = connection.createStatement()) {

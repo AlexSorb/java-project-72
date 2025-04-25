@@ -1,4 +1,4 @@
-package hexlet.code.Util;
+package hexlet.code.util;
 
 public class Date {
 
