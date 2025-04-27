@@ -8,8 +8,12 @@ COPY settings.gradle.kts .
 COPY gradlew .
 COPY Makefile .
 
+RUN ./gradlew --no-daemon dependencies
+
 COPY src src
+COPY config config
 
-RUN make dev
+ENV JAVA_OPTS="-Xmx512M -Xms512M"
+EXPOSE 7070
 
-CMD ./build/install/app/bin/app
+CMD ["java", "-jar", "build/libs/app-1.0-SNAPSHOT-all.jar"]
