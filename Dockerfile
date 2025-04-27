@@ -9,7 +9,6 @@ COPY gradlew .
 COPY Makefile .
 
 COPY src src
-COPY config config
 
 RUN make dev
 
