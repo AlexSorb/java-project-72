@@ -4,11 +4,11 @@
 @param Content content
 @param BasePage page = null
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Анализатор страниц</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -32,7 +32,7 @@
 
     @if(page != null && page.getFlash() != null)
         <div class="alert alert-success" role="alert">
-            <h3>${page.getFlash()}</h3>
+            ${page.getFlash()}
         </div>
     @endif
 

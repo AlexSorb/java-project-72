@@ -1,17 +1,24 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.BasePage;
+import hexlet.code.dto.url.BuildUrlPage;
+import hexlet.code.dto.url.UrlPage;
 import hexlet.code.dto.url.UrlsPage;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.Utils;
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
+import io.javalin.validation.ValidationException;
+
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class UrlController {
 
@@ -23,18 +30,37 @@ public class UrlController {
     }
 
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
-        String urlString = Objects.requireNonNull(handler.formParam("url"));
-        var normalizeUrl = Utils.getNormalizeUrl(urlString);
+        try {
+            String newUrlAsString = handler.formParamAsClass("url", String.class)
+                    .check(value -> Pattern.matches(
+                            "(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*", value),
+                            "Некорректный URL")
+                    .get();
 
-        if (UrlRepository.findByName(normalizeUrl).isEmpty()) {
-            UrlRepository.save(new Url(normalizeUrl));
-            handler.sessionAttribute("flash", "АПРА");
-        } else {
-            handler.sessionAttribute("flash", "EXIST");
-        }
+            var normalizeUrl = Utils.getNormalizeUrl(newUrlAsString);
+
+            if (UrlRepository.findByName(normalizeUrl).isEmpty()) {
+                UrlRepository.save(new Url(normalizeUrl));
+                handler.sessionAttribute("flash", "Страница уже существует");
+            } else {
+                handler.sessionAttribute("flash", "Страница успешно добавлена");
+            }
 
         handler.redirect(NamedRoutes.urlsPath());
+        } catch (ValidationException exception) {
+            // TO DO
+            var name = handler.formParam("name");
+            var page = new BuildUrlPage(name);
+            handler.sessionAttribute("flash", "Некорректный URL");
+            handler.redirect(NamedRoutes.urlsPath());
+        }
     }
 
-
+    public static void show(Context handler) throws SQLException {
+        var id = handler.pathParamAsClass("id", Long.class).get();
+        var url = UrlRepository.findById(id).orElseThrow(() ->
+                new NotFoundResponse("Entity with id = " + id + " not found"));
+        var page = new UrlPage(url);
+        handler.render("urls/url.jte", model("page", page));
+    }
 }

@@ -32,7 +32,7 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static Optional<Url> findById(Long id) throws SQLException {
-        String sql = "SELECT * FORM urls WHERE id = ?";
+        String sql = "SELECT * FROM urls WHERE id = ?";
         try(var connection = dataSource.getConnection();
             var prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setLong(1, id);

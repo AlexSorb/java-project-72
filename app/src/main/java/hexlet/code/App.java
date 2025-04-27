@@ -72,9 +72,9 @@ public class App {
             handler.render("index.jte");
         });
 
-
         app.post(NamedRoutes.urlsPath(), UrlController::create);
         app.get(NamedRoutes.urlsPath(), UrlController::index);
+        app.get("urls/{id}", UrlController::show);
         return app;
     }
 

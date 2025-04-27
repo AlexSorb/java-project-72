@@ -6,9 +6,11 @@
     page = page,
     content = @`
          <div class="index_block">
+            <ul>
             @for(var url : page.getUrlList())
-                <h4>${url.getId()} ${url.getName()}</h4>
+               <li><a href="urls/${url.getId()}"> ${url.getName()} </a></li>
             @endfor
+            </ul>
         </div>
-    `,
+    `
 )
