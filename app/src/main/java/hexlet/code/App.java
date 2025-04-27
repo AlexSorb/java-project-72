@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class App {
 
     public static final String PORT_NAME = "PORT";
-    public static final String DEFAULT_PORT = "7070";
+    public static final String DEFAULT_PORT = "7071";
     public static final String JDBC_URL_DEFAULT = "jdbc:h2:mem:project";
     public static final String JDBC_URL_NAME = "JDBC_DATABASE_URL";
 
@@ -34,11 +34,11 @@ public class App {
     static {
         config.setJdbcUrl(Date.getBDName());
         config.setUsername(Date.getUserName());
-        config.setPassword( Date.getPassword() );
-        config.addDataSourceProperty( "cachePrepStmts" , "true" );
-        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-        BaseRepository.dataSource = new HikariDataSource( config );
+        config.setPassword(Date.getPassword());
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        BaseRepository.dataSource = new HikariDataSource(config);
     }
 
     public static void main(String[] args) throws IOException, SQLException {
@@ -51,8 +51,8 @@ public class App {
         var sql = readResourceFile("schema.sql");
 
         log.info(sql);
-        try(var connection = BaseRepository.dataSource.getConnection();
-            var statement = connection.createStatement() ) {
+        try (var connection = BaseRepository.dataSource.getConnection();
+            var statement = connection.createStatement()) {
             statement.execute(sql);
         }
 

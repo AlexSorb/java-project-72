@@ -1,6 +1,5 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.BasePage;
 import hexlet.code.dto.url.BuildUrlPage;
 import hexlet.code.dto.url.UrlPage;
 import hexlet.code.dto.url.UrlsPage;
@@ -17,7 +16,6 @@ import static io.javalin.rendering.template.TemplateUtil.model;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class UrlController {
@@ -46,7 +44,7 @@ public class UrlController {
                 handler.sessionAttribute("flash", "Страница успешно добавлена");
             }
 
-        handler.redirect(NamedRoutes.urlsPath());
+            handler.redirect(NamedRoutes.urlsPath());
         } catch (ValidationException exception) {
             // TO DO
             var name = handler.formParam("name");

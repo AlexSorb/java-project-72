@@ -14,7 +14,7 @@ public class UrlRepository extends BaseRepository {
 
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
-        try(var connection = dataSource.getConnection();
+        try (var connection = dataSource.getConnection();
             var prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, url.getName());
             var createAt = LocalDateTime.now();
@@ -33,7 +33,7 @@ public class UrlRepository extends BaseRepository {
 
     public static Optional<Url> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM urls WHERE id = ?";
-        try(var connection = dataSource.getConnection();
+        try (var connection = dataSource.getConnection();
             var prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setLong(1, id);
 
@@ -57,7 +57,7 @@ public class UrlRepository extends BaseRepository {
         String sql = "SELECT * FROM urls";
         var listUrls = new ArrayList<Url>();
 
-        try(var connection = dataSource.getConnection(); var statement = connection.createStatement()) {
+        try (var connection = dataSource.getConnection(); var statement = connection.createStatement()) {
             var resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 var id = resultSet.getLong("id");
@@ -81,7 +81,7 @@ public class UrlRepository extends BaseRepository {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 var cheatedAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                return Optional.of(new Url(id,name,cheatedAt));
+                return Optional.of(new Url(id, name, cheatedAt));
             }
         }
         return Optional.empty();
