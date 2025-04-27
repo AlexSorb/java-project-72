@@ -13,6 +13,7 @@ clean:
 report:
 	./gradlew jacocoTestReport
 
-run:
+dev:
 	./gradlew run
+
 .PHONY: build
