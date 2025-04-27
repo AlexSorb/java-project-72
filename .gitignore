@@ -8,5 +8,3 @@ app/.gradle
 .idea
 jte-classes
 
-!app/config/checkstyle/checkstyle.xml
-app/config/checkstyle/*
