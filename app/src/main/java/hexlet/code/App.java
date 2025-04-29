@@ -34,6 +34,7 @@ public class App {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        log.info(getBdUrl());
         config.setJdbcUrl(getBdUrl());
         BaseRepository.dataSource = new HikariDataSource(config);
     }
