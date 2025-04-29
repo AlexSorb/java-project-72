@@ -41,7 +41,8 @@ public class App {
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
 
-        app.start(getPort(PORT_NAME));
+        //app.start(getPort(PORT_NAME));
+        app.start(7071);
     }
 
     public static Javalin getApp() throws IOException, SQLException {

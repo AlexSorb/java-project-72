@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public class UrlController {
-
+/*
     public static void index(Context context) throws SQLException {
         var listUrls = UrlRepository.getEntities();
         var page = new UrlsPage(listUrls);
@@ -61,4 +61,6 @@ public class UrlController {
         var page = new UrlPage(url);
        // handler.render("urls/url.jte", model("page", page));
     }
+
+ */
 }

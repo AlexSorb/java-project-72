@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class Utils {
+    /*
     public static String getNormalizeUrl(String url) throws URISyntaxException, MalformedURLException {
         String lowerCaseUrl = url.trim().toLowerCase();
         var objectUrl = new URI(lowerCaseUrl).toURL();
@@ -19,4 +20,6 @@ public class Utils {
 
         return normalizeUrl.toString();
     }
+
+     */
 }
