@@ -57,7 +57,7 @@ public class App {
 
         var app = Javalin.create(javalinConfig -> {
             javalinConfig.bundledPlugins.enableDevLogging();
-            javalinConfig.fileRenderer(new JavalinJte(createTemplateEngine()));
+            //javalinConfig.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
         app.before(handler -> {
@@ -66,12 +66,13 @@ public class App {
 
         // Обработчик событий
         app.get("/", handler -> {
-            handler.render("index.jte");
+           // handler.render("index.jte");
+            handler.result("HELLO WORLD");
         });
 
-        app.post(NamedRoutes.urlsPath(), UrlController::create);
-        app.get(NamedRoutes.urlsPath(), UrlController::index);
-        app.get("urls/{id}", UrlController::show);
+        // app.post(NamedRoutes.urlsPath(), UrlController::create);
+        //app.get(NamedRoutes.urlsPath(), UrlController::index);
+        //app.get("urls/{id}", UrlController::show);
         return app;
     }
 
@@ -99,6 +100,7 @@ public class App {
             return bufferedReader.lines().collect(Collectors.joining("\n"));
         }
     }
+    /*
     private static String getBdUrl() {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
     }
@@ -110,4 +112,6 @@ public class App {
             return "org.postgresql.Driver";
         }
     }
+
+     */
 }
