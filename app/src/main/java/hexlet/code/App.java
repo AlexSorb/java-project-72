@@ -2,7 +2,6 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import hexlet.code.util.DatabaseConfig;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
@@ -30,6 +29,11 @@ public class App {
     private static HikariConfig config = new HikariConfig();
 
     static {
+        try {
+            Class.forName(getDriver());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         config.setJdbcUrl(getBdUrl());
         BaseRepository.dataSource = new HikariDataSource(config);
     }
@@ -95,8 +99,15 @@ public class App {
             return bufferedReader.lines().collect(Collectors.joining("\n"));
         }
     }
-    
     private static String getBdUrl() {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
+    }
+
+    private static String getDriver() {
+        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
+            return "org.h2.Driver";
+        } else {
+            return "org.postgresql.Driver";
+        }
     }
 }
