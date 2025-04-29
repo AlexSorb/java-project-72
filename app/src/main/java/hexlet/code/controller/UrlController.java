@@ -37,9 +37,9 @@ public class UrlController {
 
             if (UrlRepository.findByName(normalizeUrl).isEmpty()) {
                 UrlRepository.save(new Url(normalizeUrl));
-                handler.sessionAttribute("flash", "Страница уже существует");
-            } else {
                 handler.sessionAttribute("flash", "Страница успешно добавлена");
+            } else {
+                handler.sessionAttribute("flash", "Страница уже существует");
             }
 
             handler.redirect(NamedRoutes.urlsPath());

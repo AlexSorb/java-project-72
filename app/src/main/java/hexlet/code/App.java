@@ -30,11 +30,11 @@ public class App {
 
     static {
         try {
-            Class.forName("org.h2.Driver");
+            Class.forName(getDriver());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        config.setJdbcUrl("jdbc:h2:mem:project");
+        config.setJdbcUrl(getBdUrl());
         BaseRepository.dataSource = new HikariDataSource(config);
     }
 
