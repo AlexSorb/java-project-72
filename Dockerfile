@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY /app .
 
-RUN gradle installShadowDist --all
+RUN gradle installShadowDist --scan
 
 CMD ./build/install/app-shadow/bin/app
