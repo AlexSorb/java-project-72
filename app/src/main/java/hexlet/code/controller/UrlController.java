@@ -18,12 +18,11 @@ import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public class UrlController {
-/*
     public static void index(Context context) throws SQLException {
         var listUrls = UrlRepository.getEntities();
         var page = new UrlsPage(listUrls);
         page.setFlash(context.consumeSessionAttribute("flash"));
-       // context.render("urls/urls.jte", model("page", page));
+        context.render("urls/urls.jte", model("page", page));
     }
 
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
@@ -43,10 +42,9 @@ public class UrlController {
                 handler.sessionAttribute("flash", "Страница успешно добавлена");
             }
 
-           // handler.redirect(NamedRoutes.urlsPath());
+            handler.redirect(NamedRoutes.urlsPath());
         } catch (ValidationException exception) {
             // TO DO
-            var name = handler.formParam("name");
             handler.sessionAttribute("flash", "Некорректный URL");
             handler.redirect(NamedRoutes.urlsPath());
         }
@@ -57,8 +55,6 @@ public class UrlController {
         var url = UrlRepository.findById(id).orElseThrow(() ->
                 new NotFoundResponse("Entity with id = " + id + " not found"));
         var page = new UrlPage(url);
-       // handler.render("urls/url.jte", model("page", page));
+        handler.render("urls/url.jte", model("page", page));
     }
-
- */
 }

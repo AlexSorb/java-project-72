@@ -6,13 +6,11 @@ import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
-/*
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import io.javalin.rendering.template.JavalinJte;
 import gg.jte.resolve.ResourceCodeResolver;
 
- */
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -43,8 +41,7 @@ public class App {
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
 
-        //app.start(getPort(PORT_NAME));
-        app.start(7071);
+        app.start(getPort(PORT_NAME));
     }
 
     public static Javalin getApp() throws IOException, SQLException {
@@ -56,11 +53,9 @@ public class App {
             statement.execute(sql);
         }
 
-
-
         var app = Javalin.create(javalinConfig -> {
             javalinConfig.bundledPlugins.enableDevLogging();
-            //javalinConfig.fileRenderer(new JavalinJte(createTemplateEngine()));
+            javalinConfig.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
         app.before(handler -> {
@@ -69,13 +64,12 @@ public class App {
 
         // Обработчик событий
         app.get("/", handler -> {
-           // handler.render("index.jte");
-            handler.result("HELLO WORLD");
+            handler.render("index.jte");
         });
 
-        // app.post(NamedRoutes.urlsPath(), UrlController::create);
-        //app.get(NamedRoutes.urlsPath(), UrlController::index);
-        //app.get("urls/{id}", UrlController::show);
+        app.post(NamedRoutes.urlsPath(), UrlController::create);
+        app.get(NamedRoutes.urlsPath(), UrlController::index);
+        app.get("urls/{id}", UrlController::show);
         return app;
     }
 
@@ -84,7 +78,7 @@ public class App {
         return Integer.parseInt(port);
     }
 
-    /*
+
     // Создание шаблона jte
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
@@ -92,8 +86,6 @@ public class App {
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
         return templateEngine;
     }
-
-     */
 
 
     // Загрузка данных из ресурсного файла
@@ -106,7 +98,7 @@ public class App {
             return bufferedReader.lines().collect(Collectors.joining("\n"));
         }
     }
-    /*
+
     private static String getBdUrl() {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
     }
@@ -118,6 +110,4 @@ public class App {
             return "org.postgresql.Driver";
         }
     }
-
-     */
 }
