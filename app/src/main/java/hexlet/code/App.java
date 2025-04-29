@@ -6,11 +6,13 @@ import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
-
+/*
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import io.javalin.rendering.template.JavalinJte;
 import gg.jte.resolve.ResourceCodeResolver;
+
+ */
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -82,6 +84,7 @@ public class App {
         return Integer.parseInt(port);
     }
 
+    /*
     // Создание шаблона jte
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
@@ -89,6 +92,8 @@ public class App {
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
         return templateEngine;
     }
+
+     */
 
 
     // Загрузка данных из ресурсного файла
