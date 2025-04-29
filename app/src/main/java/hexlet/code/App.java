@@ -2,7 +2,7 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import hexlet.code.util.Date;
+import hexlet.code.util.DatabaseConfig;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
@@ -26,18 +26,11 @@ public class App {
 
     public static final String PORT_NAME = "PORT";
     public static final String DEFAULT_PORT = "7071";
-    public static final String JDBC_URL_DEFAULT = "jdbc:h2:mem:project";
-    public static final String JDBC_URL_NAME = "JDBC_DATABASE_URL";
 
     private static HikariConfig config = new HikariConfig();
 
     static {
-        config.setJdbcUrl(Date.getBDName());
-        config.setUsername(Date.getUserName());
-        config.setPassword(Date.getPassword());
-        config.addDataSourceProperty("cachePrepStmts", "true");
-        config.addDataSourceProperty("prepStmtCacheSize", "250");
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.setJdbcUrl(getBdUrl());
         BaseRepository.dataSource = new HikariDataSource(config);
     }
 
@@ -101,5 +94,9 @@ public class App {
                 new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return bufferedReader.lines().collect(Collectors.joining("\n"));
         }
+    }
+    
+    private static String getBdUrl() {
+        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
     }
 }

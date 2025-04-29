@@ -2,13 +2,8 @@ FROM gradle:8.5.0-jdk21
 
 WORKDIR /app
 
-COPY .
+COPY /app .
 
-RUN ./gradlew --no-daemon dependencies
+RUN gradle installDist
 
-RUN ./gradlew --no-daemon build
-
-ENV JAVA_OPTS="-Xmx512M -Xms512M"
-EXPOSE 7070
-
-CMD ["java", "-jar", "build/libs/app-1.0-SNAPSHOT-all.jar"]
+CMD ./build/install/app/bin/app

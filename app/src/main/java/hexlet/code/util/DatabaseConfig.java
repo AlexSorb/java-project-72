@@ -1,8 +1,8 @@
 package hexlet.code.util;
 
-public class Date {
+public class DatabaseConfig {
 
-    public static String  getBDName() {
+    public static String getBDName() {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
 
     }
