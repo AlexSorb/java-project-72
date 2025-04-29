@@ -1,6 +1,5 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.url.BuildUrlPage;
 import hexlet.code.dto.url.UrlPage;
 import hexlet.code.dto.url.UrlsPage;
 import hexlet.code.util.NamedRoutes;
@@ -48,7 +47,6 @@ public class UrlController {
         } catch (ValidationException exception) {
             // TO DO
             var name = handler.formParam("name");
-            var page = new BuildUrlPage(name);
             handler.sessionAttribute("flash", "Некорректный URL");
             handler.redirect(NamedRoutes.urlsPath());
         }
