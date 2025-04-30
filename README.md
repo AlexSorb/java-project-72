@@ -8,5 +8,5 @@
 <p>
 Проект описыват сайт, который анализирует указанные страницы на SEO пригодность.
 
-https://java-project-72-fxyv.onrender.com/
+[https://java-project-72-fxyv.onrender.com/](https://pageanalyzer-11io.onrender.com)
 </p>
