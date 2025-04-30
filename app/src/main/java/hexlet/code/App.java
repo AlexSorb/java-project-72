@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
+import java.lang.StringBuilder;
 
 @Slf4j
 public class App {
@@ -34,8 +35,8 @@ public class App {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        log.info(getBdUrl());
-        config.setJdbcUrl(getBdUrl());
+        log.info(getDataBaseUrl());
+        config.setJdbcUrl(getDataBaseUrl());
         BaseRepository.dataSource = new HikariDataSource(config);
     }
 
@@ -111,4 +112,23 @@ public class App {
             return "org.postgresql.Driver";
         }
     }
+
+    private static String getDataBaseUrl() {
+    
+        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
+            return "jdbc:h2:mem:project";
+        }
+
+            var stringBilderUrl = new StringBuilder("jdbc:postgresql://");
+        stringBilderUrl.append(System.getenv("HOST"));
+        stringBilderUrl.append(":");
+        stringBilderUrl.append(System.getenv("DB_PORT"));
+        stringBilderUrl.append("/");
+        stringBilderUrl.append(System.getenv("DATABASE"));
+        stringBilderUrl.append("?password=");
+        stringBilderUrl.append(System.getenv("PASSWORD"));
+        stringBilderUrl.append("&user=");
+        stringBilderUrl.append(System.getenv("USERNAME"));
+
+        return stringBilderUrl.toString();
 }
