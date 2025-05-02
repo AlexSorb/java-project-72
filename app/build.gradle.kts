@@ -31,6 +31,8 @@ dependencies {
     implementation("gg.jte:jte:3.2.0")
 
 
+    testImplementation("org.assertj:assertj-core:3.27.3")
+    testImplementation("org.mockito:mockito-core:5.17.0")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

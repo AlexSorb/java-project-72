@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
-import java.lang.StringBuilder;
 
 @Slf4j
 public class App {
@@ -114,12 +113,11 @@ public class App {
     }
 
     private static String getDataBaseUrl() {
-    
         if (System.getenv().get("JDBC_DATABASE_URL") == null) {
             return "jdbc:h2:mem:project";
         }
 
-            var stringBilderUrl = new StringBuilder("jdbc:postgresql://");
+        var stringBilderUrl = new StringBuilder("jdbc:postgresql://");
         stringBilderUrl.append(System.getenv("HOST"));
         stringBilderUrl.append(":");
         stringBilderUrl.append(System.getenv("DB_PORT"));
