@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
@@ -26,18 +24,6 @@ public class App {
     public static final String PORT_NAME = "PORT";
     public static final String DEFAULT_PORT = "7071";
 
-    private static HikariConfig config = new HikariConfig();
-
-    static {
-        try {
-            Class.forName(getDriver());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        log.info(getDataBaseUrl());
-        config.setJdbcUrl(getDataBaseUrl());
-        BaseRepository.dataSource = new HikariDataSource(config);
-    }
 
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
@@ -49,7 +35,7 @@ public class App {
         var sql = readResourceFile("schema.sql");
 
         log.info(sql);
-        try (var connection = BaseRepository.dataSource.getConnection();
+        try (var connection = BaseRepository.getConnection();
             var statement = connection.createStatement()) {
             statement.execute(sql);
         }
@@ -71,6 +57,8 @@ public class App {
         app.post(NamedRoutes.urlsPath(), UrlController::create);
         app.get(NamedRoutes.urlsPath(), UrlController::index);
         app.get("urls/{id}", UrlController::show);
+
+
         return app;
     }
 
@@ -79,8 +67,6 @@ public class App {
         return Integer.parseInt(port);
     }
 
-
-    // Создание шаблона jte
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
@@ -88,8 +74,6 @@ public class App {
         return templateEngine;
     }
 
-
-    // Загрузка данных из ресурсного файла
     private static String readResourceFile(String fileName) throws IOException {
 
         var inputStream = App.class.getClassLoader().getResourceAsStream(fileName);
@@ -100,34 +84,4 @@ public class App {
         }
     }
 
-    private static String getBdUrl() {
-        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
-    }
-
-    private static String getDriver() {
-        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
-            return "org.h2.Driver";
-        } else {
-            return "org.postgresql.Driver";
-        }
-    }
-
-    private static String getDataBaseUrl() {
-        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
-            return "jdbc:h2:mem:project";
-        }
-
-        var stringBilderUrl = new StringBuilder("jdbc:postgresql://");
-        stringBilderUrl.append(System.getenv("HOST"));
-        stringBilderUrl.append(":");
-        stringBilderUrl.append(System.getenv("DB_PORT"));
-        stringBilderUrl.append("/");
-        stringBilderUrl.append(System.getenv("DATABASE"));
-        stringBilderUrl.append("?password=");
-        stringBilderUrl.append(System.getenv("PASSWORD"));
-        stringBilderUrl.append("&user=");
-        stringBilderUrl.append(System.getenv("USERNAME"));
-
-        return stringBilderUrl.toString();
-    }
 }

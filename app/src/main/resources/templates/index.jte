@@ -6,7 +6,7 @@
             <form>
             <p><input type="text" name="url" placeholder="Адрес сайта" size="18" /></p>
             <p>
-            <button type="submit" formmethod="post" formaction="\urls">Проверить</button>
+            <button type="submit" formmethod="post" formaction="/urls">Проверить</button>
             <button type="reset">Отмена</button>
             </p>
             </form>

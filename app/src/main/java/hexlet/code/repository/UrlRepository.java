@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public class UrlRepository extends BaseRepository {
 
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
-        try (var connection = dataSource.getConnection();
+        try (var connection = UrlRepository.getConnection();
             var prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, url.getName());
             var createAt = LocalDateTime.now();
@@ -33,7 +34,7 @@ public class UrlRepository extends BaseRepository {
 
     public static Optional<Url> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM urls WHERE id = ?";
-        try (var connection = dataSource.getConnection();
+        try (var connection = UrlRepository.getConnection();
             var prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setLong(1, id);
 
@@ -57,7 +58,7 @@ public class UrlRepository extends BaseRepository {
         String sql = "SELECT * FROM urls";
         var listUrls = new ArrayList<Url>();
 
-        try (var connection = dataSource.getConnection(); var statement = connection.createStatement()) {
+        try (var connection = UrlRepository.getConnection(); var statement = connection.createStatement()) {
             var resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 var id = resultSet.getLong("id");
@@ -72,7 +73,7 @@ public class UrlRepository extends BaseRepository {
 
     public static Optional<Url> findByName(String url) throws SQLException {
         String sql = "SELECT * FROM urls WHERE name = ?";
-        try (var connection = dataSource.getConnection();
+        try (var connection = UrlRepository.getConnection();
              var prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, url);
             var resultSet = prepareStatement.executeQuery();
@@ -85,5 +86,13 @@ public class UrlRepository extends BaseRepository {
             }
         }
         return Optional.empty();
+    }
+
+    public static void removeAll() throws SQLException {
+        String sql = "TRUNCATE TABLE urls RESTART IDENTITY";
+        try (var connection = UrlRepository.getConnection();
+             var statement = connection.createStatement()) {
+            statement.execute(sql);
+        }
     }
 }

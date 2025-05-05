@@ -1,4 +1,5 @@
 @import hexlet.code.dto.url.UrlsPage
+@import hexlet.code.util.NamedRoutes
 
 @param UrlsPage page
 
@@ -8,7 +9,7 @@
          <div class="index_block">
             <ul>
             @for(var url : page.getUrlList())
-               <li><a href="urls/${url.getId()}"> ${url.getName()} </a></li>
+               <li><a href="${NamedRoutes.urlsIdPath(url.getId())}"> ${url.getName()} </a></li>
             @endfor
             </ul>
         </div>

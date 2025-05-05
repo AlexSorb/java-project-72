@@ -1,5 +1,6 @@
 @import gg.jte.Content
 @import hexlet.code.dto.BasePage
+@import hexlet.code.util.NamedRoutes
 
 @param Content content
 @param BasePage page = null
@@ -20,13 +21,12 @@
 
 </head>
 
-
 <body>
     <nav class="menu">
       <ul>
-        <li><a href="/">Анализатор страниц</a></li>
-        <li><a href="/">Главная</a></li>
-        <li><a href="/urls">Сайты</a></li>
+        <li><a href="${NamedRoutes.index()}"">Анализатор страниц</a></li>
+        <li><a href="NamedRoutes.index()">Главная</a></li>
+        <li><a href="NamedRoutes.urlsPath()">Сайты</a></li>
       </ul>
     </nav>
 

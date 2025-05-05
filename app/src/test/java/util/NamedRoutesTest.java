@@ -8,8 +8,19 @@ public class NamedRoutesTest {
 
     @Test
     public void urlsPathTest() {
-
         var urlsPathResult = NamedRoutes.urlsPath();
         assertEquals(urlsPathResult, "/urls");
+    }
+
+    @Test
+    public void indexTest() {
+        var indexPathResult = NamedRoutes.index();
+        assertEquals(indexPathResult, "/");
+    }
+
+    @Test
+    public void urlsIdPathTest() {
+        var urlsIdPathResult = NamedRoutes.urlsIdPath(Long.MAX_VALUE);
+        assertEquals(urlsIdPathResult, "/urls/" + Long.MAX_VALUE);
     }
 }
