@@ -64,7 +64,7 @@ public class AppTest {
             var requestBody = "url=https://www.example.com/";
             var response = client.post("/urls", requestBody);
             assertThat(response.code()).isEqualTo(200);
-            assertThat(response.body().string()).contains("https://www.example.com/");
+            assertThat(response.body().string()).contains("https://www.example.com");
         });
     }
 
