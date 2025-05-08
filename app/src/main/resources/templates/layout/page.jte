@@ -24,9 +24,9 @@
 <body>
     <nav class="menu">
       <ul>
-        <li><a href="${NamedRoutes.index()}"">Анализатор страниц</a></li>
-        <li><a href="NamedRoutes.index()">Главная</a></li>
-        <li><a href="NamedRoutes.urlsPath()">Сайты</a></li>
+        <li><a href="/">Анализатор страниц</a></li>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/urls">Сайты</a></li>
       </ul>
     </nav>
 
