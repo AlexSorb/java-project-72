@@ -29,6 +29,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:6.2.1")
     implementation("com.h2database:h2:2.3.232")
     implementation("gg.jte:jte:3.2.0")
+    implementation("com.konghq:unirest-java:3.14.5")
 
 
     testImplementation("org.assertj:assertj-core:3.27.3")
