@@ -5,11 +5,26 @@
     page = page,
     content = @`
          <div class="index_block">
-            <ul>
-            @for(var url : page.getUrlList())
-               <li><a href="/urls/${url.getId()}"> ${url.getName()} </a></li>
-            @endfor
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Последняя проверка</th>
+                        <th>Код ответа</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(var url : page.getUrlList())
+                        <tr>
+                            <td>${url.getId()}</td>
+                            <td><a href="/urls/${url.getId()}"> ${url.getName()}</a></td>
+                            <td>   </td>
+                            <td>   </td>
+                        </tr>
+                    @endfor
+                </tbody>
+            </table>
         </div>
     `
 )

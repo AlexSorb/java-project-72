@@ -57,4 +57,9 @@ public class UrlController {
         var page = new UrlPage(url);
         handler.render("urls/url.jte", model("page", page));
     }
+
+    public static void check(Context handler) {
+
+        handler.redirect("/urls");
+    }
 }
