@@ -30,6 +30,7 @@ dependencies {
     implementation("com.h2database:h2:2.3.232")
     implementation("gg.jte:jte:3.2.0")
     implementation("com.konghq:unirest-java:3.14.5")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 
 
     testImplementation("org.assertj:assertj-core:3.27.3")
