@@ -68,23 +68,16 @@ public class UrlController {
         var url = UrlRepository.findById(id).get();
 
         var response = Unirest.get(url.getName()).asString();
+
         var responseStatus = response.getStatus();
         var body = response.getBody();
         var h1 = Utils.getH1Teg(body);
         var title = Utils.getTitle(body);
         var description = Utils.getDescription(body);
 
-
-
-        var check = new UrlCheck();
-        check.setH1(h1);
-        check.setTitle(title);
-        check.setDescription(description);
-        check.setStatusCode(responseStatus);
-        check.setUrlId(id);
-
+        var check = new UrlCheck(responseStatus,title,h1,description,id);
         UrlChecksRepository.save(check);
+        handler.redirect(NamedRoutes.urlsIdPath(id));
 
-        handler.redirect("/urls/" + id);
     }
 }
