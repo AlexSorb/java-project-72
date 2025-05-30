@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UrlChecksRepository extends BaseRepository {
 
     public static void save(UrlCheck urlCheck) throws SQLException {
         String sql = "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
-        try (var connection = UrlRepository.getConnection();
+        try (var connection = UrlChecksRepository.getConnection();
              var prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             prepareStatement.setLong(1, urlCheck.getUrlId());
@@ -36,4 +38,34 @@ public class UrlChecksRepository extends BaseRepository {
         }
     }
 
+    public static List<UrlCheck> findById(Long urlId) throws SQLException {
+        String sql = "SELECT * FROM url_checks WHERE url_id = ?";
+        var result = new ArrayList<UrlCheck>();
+
+        try (var connection = UrlChecksRepository.getConnection();
+        var prepareStatement = connection.prepareStatement(sql)) {
+            prepareStatement.setLong(1, urlId);
+            var resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                var title = resultSet.getString("title");
+                var h1 = resultSet.getString("h1");
+                var description = resultSet.getString("description");
+                var id = resultSet.getLong("id");
+                var statusCode = resultSet.getInt("status_code");
+                var createAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
+                var urlCheck = new UrlCheck();
+                urlCheck.setH1(h1);
+                urlCheck.setTitle(title);
+                urlCheck.setDescription(description);
+                urlCheck.setUrlId(urlId);
+                urlCheck.setStatusCode(statusCode);
+                urlCheck.setCreatedAt(createAt);
+                urlCheck.setId(id);
+
+                result.add(urlCheck);
+            }
+        }
+        return result;
+    }
 }

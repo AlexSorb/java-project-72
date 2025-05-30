@@ -57,7 +57,9 @@ public class UrlController {
         var id = handler.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.findById(id).orElseThrow(() ->
                 new NotFoundResponse("Entity with id = " + id + " not found"));
-        var page = new UrlPage(url);
+
+        var urlCheck = UrlChecksRepository.findById(id);
+        var page = new UrlPage(url, urlCheck);
         handler.render("urls/url.jte", model("page", page));
     }
 
