@@ -19,4 +19,16 @@ public class Utils {
 
         return normalizeUrl.toString();
     }
+
+    public static String getH1Teg(String body) {
+        return "";
+    }
+
+    public static String getTitle(String body) {
+        return "";
+    }
+
+    public static String getDescription(String body) {
+        return "";
+    }
 }

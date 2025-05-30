@@ -2,6 +2,8 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.url.UrlPage;
 import hexlet.code.dto.url.UrlsPage;
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlChecksRepository;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.Utils;
 import hexlet.code.model.Url;
@@ -9,6 +11,7 @@ import hexlet.code.repository.UrlRepository;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.validation.ValidationException;
+import kong.unirest.Unirest;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -58,8 +61,28 @@ public class UrlController {
         handler.render("urls/url.jte", model("page", page));
     }
 
-    public static void check(Context handler) {
+    public static void check(Context handler) throws SQLException {
+        var id = handler.pathParamAsClass("id", Long.class).get();
+        var url = UrlRepository.findById(id).get();
 
-        handler.redirect("/urls");
+        var response = Unirest.get(url.getName()).asString();
+        var responseStatus = response.getStatus();
+        var body = response.getBody();
+        var h1 = Utils.getH1Teg(body);
+        var title = Utils.getTitle(body);
+        var description = Utils.getDescription(body);
+
+
+
+        var check = new UrlCheck();
+        check.setH1(h1);
+        check.setTitle(title);
+        check.setDescription(description);
+        check.setStatusCode(responseStatus);
+        check.setUrlId(id);
+
+        UrlChecksRepository.save(check);
+
+        handler.redirect("/urls/" + id);
     }
 }
