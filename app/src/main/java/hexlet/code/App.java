@@ -13,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,11 +26,9 @@ public class App {
     public static final String PORT_NAME = "PORT";
     public static final String DEFAULT_PORT = "7071";
 
-
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
-
-        app.start(getPort(PORT_NAME));
+        app.start(getPort());
     }
 
     public static Javalin getApp() throws IOException, SQLException {
@@ -49,30 +49,34 @@ public class App {
             handler.contentType("text/html; charset=utf-8");
         });
 
-        // Обработчик событий
-        app.get("/", handler -> {
+        app.get(NamedRoutes.indexPath(), handler -> {
             handler.render("index.jte");
         });
 
         app.post(NamedRoutes.urlsPath(), UrlController::create);
         app.get(NamedRoutes.urlsPath(), UrlController::index);
-        app.get("/urls/{id}", UrlController::show);
-        app.post("/urls/{id}/checks", UrlController::check);
-
+        app.get(NamedRoutes.urlsIdPath(), UrlController::show);
+        app.post(NamedRoutes.urlIdChecksPath(), UrlController::check);
 
         return app;
     }
 
-    public static int getPort(String portName) {
-        String port = System.getenv().getOrDefault(portName, DEFAULT_PORT);
+    public static int getPort() throws IOException {
+        var inputLoader = App.class.getClassLoader().getResourceAsStream("config.properties");
+        var properties = new Properties();
+        properties.load(inputLoader);
+
+        var portName = properties.getProperty("port_name");
+        var defaultPort = properties.getProperty("default_port");
+
+        var port = System.getenv().getOrDefault(portName, defaultPort);
         return Integer.parseInt(port);
     }
 
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
-        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
-        return templateEngine;
+        return  TemplateEngine.create(codeResolver, ContentType.Html);
     }
 
     private static String readResourceFile(String fileName) throws IOException {
