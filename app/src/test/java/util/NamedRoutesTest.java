@@ -13,8 +13,8 @@ public class NamedRoutesTest {
     }
 
     @Test
-    public void indexTest() {
-        var indexPathResult = NamedRoutes.index();
+    public void indexPathTest() {
+        var indexPathResult = NamedRoutes.indexPath();
         assertEquals(indexPathResult, "/");
     }
 

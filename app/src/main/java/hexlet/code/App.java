@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -22,9 +21,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class App {
-
-    public static final String PORT_NAME = "PORT";
-    public static final String DEFAULT_PORT = "7071";
 
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
