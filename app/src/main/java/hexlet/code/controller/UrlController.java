@@ -30,13 +30,13 @@ public class UrlController {
 
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
         try {
-            String newUrlAsString = handler.formParamAsClass("url", String.class)
+            String urlAsString = handler.formParamAsClass("url", String.class)
                     .check(value -> Pattern.matches(
                             "(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*", value),
                             "Некорректный URL")
                     .get();
 
-            var normalizeUrl = Utils.getNormalizeUrl(newUrlAsString);
+            var normalizeUrl = Utils.getNormalizeUrl(urlAsString);
 
             if (UrlRepository.findByName(normalizeUrl).isEmpty()) {
                 UrlRepository.save(new Url(normalizeUrl));
@@ -78,6 +78,5 @@ public class UrlController {
         var check = new UrlCheck(responseStatus,title,h1,description,id);
         UrlChecksRepository.save(check);
         handler.redirect(NamedRoutes.urlsIdPath(id));
-
     }
 }
