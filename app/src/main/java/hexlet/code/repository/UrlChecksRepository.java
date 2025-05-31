@@ -38,7 +38,7 @@ public class UrlChecksRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> findById(Long urlId) throws SQLException {
-        String sql = "SELECT * FROM url_checks WHERE url_id = ?";
+        String sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY created_at DESC";
         var result = new ArrayList<UrlCheck>();
 
         try (var connection = UrlChecksRepository.getConnection();
@@ -46,6 +46,7 @@ public class UrlChecksRepository extends BaseRepository {
             prepareStatement.setLong(1, urlId);
             var resultSet = prepareStatement.executeQuery();
             while (resultSet.next()) {
+
                 var title = resultSet.getString("title");
                 var h1 = resultSet.getString("h1");
                 var description = resultSet.getString("description");
