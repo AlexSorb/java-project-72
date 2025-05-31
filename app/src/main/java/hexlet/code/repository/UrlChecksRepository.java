@@ -64,4 +64,12 @@ public class UrlChecksRepository extends BaseRepository {
         }
         return result;
     }
+
+    public static void removeAll() throws SQLException {
+        String sql = "TRUNCATE TABLE url_checks RESTART IDENTITY";
+        try (var connection = UrlRepository.getConnection();
+             var statement = connection.createStatement()) {
+            statement.execute(sql);
+        }
+    }
 }
