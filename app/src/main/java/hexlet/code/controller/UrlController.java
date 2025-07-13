@@ -30,9 +30,12 @@ public class UrlController {
 
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
         try {
+            var pattern = Pattern.compile("(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*");
             String urlAsString = handler.formParamAsClass("url", String.class)
-                    .check(value -> Pattern.matches(
-                            "(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*", value),
+                    .check(value -> {
+                        var matcher = pattern.matcher(value);
+                        return matcher.matches();
+                            },
                             "Некорректный URL")
                     .get();
 
@@ -71,8 +74,8 @@ public class UrlController {
 
         var responseStatus = response.getStatus();
         var body = response.getBody();
-        var h1 = Utils.getH1Teg(body);
-        var title = Utils.getTitle(body);
+        var h1 = Utils.getDataFromHtmlTeg(body, "h1");
+        var title = Utils.getDataFromHtmlTeg(body, "title");
         var description = Utils.getDescription(body);
 
         var check = new UrlCheck(responseStatus,title,h1,description,id);
