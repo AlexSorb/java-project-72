@@ -24,6 +24,7 @@ public class UrlController {
     public static void index(Context context) throws SQLException {
         var listUrls = UrlRepository.getEntities();
         var page = new UrlsPage(listUrls);
+
         page.setFlash(context.consumeSessionAttribute("flash"));
         context.render("urls/urls.jte", model("page", page));
     }
@@ -35,8 +36,7 @@ public class UrlController {
                     .check(value -> {
                         var matcher = pattern.matcher(value);
                         return matcher.matches();
-                            },
-                            "Некорректный URL")
+                        }, "Некорректный URL")
                     .get();
 
             var normalizeUrl = Utils.getNormalizeUrl(urlAsString);

@@ -25,8 +25,8 @@ public class UrlChecksRepository extends BaseRepository {
 
             var createAt = LocalDateTime.now();
             prepareStatement.setTimestamp(6, Timestamp.valueOf(createAt));
-
             prepareStatement.executeUpdate();
+
             var generatedKeys = prepareStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 urlCheck.setId(generatedKeys.getLong("id"));
