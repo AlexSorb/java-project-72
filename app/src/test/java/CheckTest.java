@@ -1,39 +1,27 @@
-import okhttp3.HttpUrl;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
+import hexlet.code.App;
+import kong.unirest.Unirest;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 
 public class CheckTest {
 
-    private static MockWebServer testServer;
-    private static HttpUrl baseUrl;
-
-
-    private static String body = "<meta name=\"description\" content=\"краткое описание страницы\">\n" +
-            "<title>Example Domain<title>\n<h1>Заголово</h1>";
+    private String currentUrl;
 
     @BeforeAll
-    public static void init() throws IOException {
-        testServer = new MockWebServer();
-        var response = new MockResponse()
-                .addHeader("Content-Type", "text/html; charset=utf-8").setResponseCode(200).setBody(body);
-
-        testServer.start();
-        baseUrl = testServer.url("/");
+    void initialisation()throws IOException {
+        currentUrl = "http://localhost:" + App.getPort();
     }
 
     @Test
-    public void test() {
-        assertTrue(true);
+    void simpleTest() {
+        var request = Unirest.get(currentUrl).asString();
+        assertEquals(200, request.getStatus());
+        assertNotNull(request.getBody());
     }
 
-    @AfterAll
-    public static void shutdown() throws IOException {
-        testServer.shutdown();
-    }
+
 }
