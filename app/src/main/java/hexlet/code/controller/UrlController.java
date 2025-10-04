@@ -32,7 +32,8 @@ public class UrlController {
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
         try {
             var pattern = Pattern.compile("(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*");
-            String urlAsString = handler.formParamAsClass("url", String.class)
+            String urlAsString = handler.formParamAsClass("url" +
+                            "", String.class)
                     .check(value -> {
                         var matcher = pattern.matcher(value);
                         return matcher.matches();
