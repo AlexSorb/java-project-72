@@ -24,7 +24,7 @@ public class CheckTest {
     private Javalin app;
 
     @BeforeAll
-    void initialisation() throws IOException, SQLException {
+    public void initialisation() throws IOException, SQLException {
         app = App.getApp();
         currentUrl = String.format("http://localhost:%d", App.getPort());
 

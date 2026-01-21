@@ -7,7 +7,17 @@ import java.util.regex.Pattern;
 
 public class Utils {
     public static String getNormalizeUrl(String url) throws URISyntaxException, MalformedURLException {
+
+        if (url == null) {
+            throw new NullPointerException("The url cannot be null");
+        }
+
+        if (url.isEmpty()) {
+            return "url";
+        }
+
         String lowerCaseUrl = url.trim().toLowerCase();
+
         var objectUrl = new URI(lowerCaseUrl).toURL();
 
         StringBuilder normalizeUrl = new StringBuilder();
