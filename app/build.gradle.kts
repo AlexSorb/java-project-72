@@ -19,9 +19,9 @@ repositories {
 }
 
 dependencies {
-    implementation("io.javalin:javalin:6.5.0")
-    implementation("io.javalin:javalin-bundle:6.5.0")
-    implementation("io.javalin:javalin-rendering:6.5.0")
+    implementation("io.javalin:javalin:7.2.0")
+    implementation("io.javalin:javalin-bundle:7.1.0")
+    implementation("io.javalin:javalin-rendering-jte:7.2.0")
 
     implementation("org.postgresql:postgresql:42.7.2")
 

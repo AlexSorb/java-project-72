@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,12 +26,14 @@ public class App {
         var port = getPort();
 
         app.start(port);
+        log.info("Starts on port {}", app.port());
     }
 
     public static Javalin getApp() throws IOException, SQLException {
-        var sql = readResourceFile("schema.sql");
 
-        log.info(sql);
+        var sql = readResourceFile("schema.sql");
+        log.info("INITIAL DATABASE STRUCTURE SETUP:\n{}", sql);
+
         try (var connection = BaseRepository.getConnection();
             var statement = connection.createStatement()) {
             statement.execute(sql);
@@ -41,33 +42,24 @@ public class App {
         var app = Javalin.create(javalinConfig -> {
             javalinConfig.bundledPlugins.enableDevLogging();
             javalinConfig.fileRenderer(new JavalinJte(createTemplateEngine()));
-        });
 
-        app.before(handler -> {
-            handler.contentType("text/html; charset=utf-8");
-        });
+            javalinConfig.routes.before(handler ->
+                    handler.contentType("text/html; charset=utf-8"));
 
-        app.get(NamedRoutes.indexPath(), handler -> {
-            handler.render("index.jte");
-        });
+            javalinConfig.routes.get(NamedRoutes.indexPath(),
+                    handler -> handler.render("index.jte"));
 
-        app.post(NamedRoutes.urlsPath(), UrlController::create);
-        app.get(NamedRoutes.urlsPath(), UrlController::index);
-        app.get(NamedRoutes.urlsIdPath(), UrlController::show);
-        app.post(NamedRoutes.urlIdChecksPath(), UrlController::check);
+            javalinConfig.routes.post(NamedRoutes.urlsPath(), UrlController::create);
+            javalinConfig.routes.get(NamedRoutes.urlsPath(), UrlController::index);
+            javalinConfig.routes.get(NamedRoutes.urlsIdPath(), UrlController::show);
+            javalinConfig.routes.post(NamedRoutes.urlIdChecksPath(), UrlController::check);
+        });
 
         return app;
     }
 
-    public static int getPort() throws IOException {
-        var inputLoader = App.class.getClassLoader().getResourceAsStream("config.properties");
-        var properties = new Properties();
-        properties.load(inputLoader);
-
-        var portName = properties.getProperty("port_name");
-        var defaultPort = properties.getProperty("default_port");
-
-        var port = System.getenv().getOrDefault(portName, defaultPort);
+    public static int getPort() {
+        String port = System.getenv().getOrDefault("PORT","7070");
         return Integer.parseInt(port);
     }
 
