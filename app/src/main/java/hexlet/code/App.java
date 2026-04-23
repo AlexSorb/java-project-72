@@ -26,8 +26,8 @@ public class App {
 
     static {
         var preferences = System.getenv();
-        hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project"));
-
+        //hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project"));
+        hikariConfig.setJdbcUrl(getDataBaseUrl());
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
     }
 
@@ -87,6 +87,36 @@ public class App {
                 new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return bufferedReader.lines().collect(Collectors.joining("\n"));
         }
+    }
+    private static String getDataBaseUrl() {
+        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
+            return "jdbc:h2:mem:project";
+        }
+
+        var stringBilderUrl = new StringBuilder("jdbc:postgresql://");
+        stringBilderUrl.append(System.getenv("HOST"));
+        stringBilderUrl.append(":");
+        stringBilderUrl.append(System.getenv("DB_PORT"));
+        stringBilderUrl.append("/");
+        stringBilderUrl.append(System.getenv("DATABASE"));
+        stringBilderUrl.append("?password=");
+        stringBilderUrl.append(System.getenv("PASSWORD"));
+        stringBilderUrl.append("&user=");
+        stringBilderUrl.append(System.getenv("USERNAME"));
+
+
+        var port = System.getenv("HOST");
+        var dbPort = System.getenv("DB_PORT");
+        var dataBase = System.getenv("DATABASE");
+        var password = System.getenv("PASSWORD");
+        var userName = System.getenv("USERNAME");
+
+        String url = String.format("jdbc:postgresql://%s:%s/%s?password=%s&user=%s",
+                port, dbPort, dataBase, password, userName);
+
+        return url;
+
+        //return stringBilderUrl.toString();
     }
 
 }
