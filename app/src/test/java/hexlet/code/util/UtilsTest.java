@@ -1,6 +1,5 @@
 package hexlet.code.util;
 
-import hexlet.code.util.Utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import java.net.URISyntaxException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UtilsTest {
-    private final String testString= "Test text";
+    private final String testString = "Test text";
 
     private final String fullUrlWithoutPort = "https://example.com/api/v1/users?status=active&sort=desc";
     private final String shortUrlWithoutPort = "https://example.com/";

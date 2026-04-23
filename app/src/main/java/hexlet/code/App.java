@@ -26,7 +26,7 @@ public class App {
 
     static {
         var preferences = System.getenv();
-        hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL","jdbc:h2:mem:project"));
+        hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project"));
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
     }

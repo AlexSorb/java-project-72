@@ -1,16 +1,16 @@
 package hexlet.code;
 
-import hexlet.code.model.Url;
-import hexlet.code.repository.UrlRepository;
+//import hexlet.code.model.Url;
+//import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
-import io.javalin.testtools.JavalinTest;
+//import io.javalin.testtools.JavalinTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+//import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppTest {
 

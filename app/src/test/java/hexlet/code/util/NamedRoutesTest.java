@@ -1,6 +1,5 @@
 package hexlet.code.util;
 
-import hexlet.code.util.NamedRoutes;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -59,7 +59,7 @@ public class CheckTest {
         assertEquals(201, responseAddUrl.getStatus());
         assertTrue(requestAddedUrl.getBody().contains(testingUrl));
 
-        var responseCheckUrl = Unirest.post(currentUrl +"/1/" + "/checks").body("id=" + 1).asString();
+        var responseCheckUrl = Unirest.post(currentUrl + "/1/" + "/checks").body("id=" + 1).asString();
         var requestCheckUrl = Unirest.get(currentUrl + "/1/").asString();
 
         assertEquals(201, responseCheckUrl.getStatus());

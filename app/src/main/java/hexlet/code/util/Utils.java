@@ -55,7 +55,7 @@ public class Utils {
 
         if (matcher.find()) {
             var substr = matcher.group();
-            result = substr.replaceAll(("<.*?>"),"");
+            result = substr.replaceAll(("<.*?>"), "");
         }
 
         return result;
