@@ -1,4 +1,4 @@
-package util;
+package hexlet.code.util;
 
 import hexlet.code.util.NamedRoutes;
 import org.junit.jupiter.api.Test;

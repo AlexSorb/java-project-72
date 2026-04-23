@@ -1,4 +1,4 @@
-package util;
+package hexlet.code.util;
 
 import hexlet.code.util.Utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,5 +74,10 @@ public class UtilsTest {
 
         var resultNullString = Utils.getDescription(null);
         assertEquals(resultNullString, "");
+    }
+
+    @Test
+    public void getDescriptionTest2() {
+
     }
 }

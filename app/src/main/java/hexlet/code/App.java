@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
@@ -20,6 +22,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class App {
+    public   static HikariConfig hikariConfig = new HikariConfig();
+
+    static {
+        var preferences = System.getenv();
+        hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL","jdbc:h2:mem:project"));
+
+        BaseRepository.dataSource = new HikariDataSource(hikariConfig);
+    }
 
     public static void main(String[] args) throws IOException, SQLException {
         var app = getApp();
@@ -59,7 +69,7 @@ public class App {
     }
 
     public static int getPort() {
-        String port = System.getenv().getOrDefault("PORT","7070");
+        String port = System.getenv().getOrDefault("PORT", "7070");
         return Integer.parseInt(port);
     }
 

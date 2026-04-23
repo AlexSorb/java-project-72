@@ -13,12 +13,11 @@ import io.javalin.http.NotFoundResponse;
 import io.javalin.validation.ValidationException;
 import kong.unirest.Unirest;
 
-import static io.javalin.rendering.template.TemplateUtil.model;
-
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
+import java.util.Map;
 
 public class UrlController {
     public static void index(Context context) throws SQLException {
@@ -26,7 +25,7 @@ public class UrlController {
         var page = new UrlsPage(listUrls);
 
         page.setFlash(context.consumeSessionAttribute("flash"));
-        context.render("urls/urls.jte", model("page", page));
+        context.render("urls/urls.jte", Map.of("page", page));
     }
 
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
@@ -64,7 +63,7 @@ public class UrlController {
 
         var urlCheck = UrlChecksRepository.findById(id);
         var page = new UrlPage(url, urlCheck);
-        handler.render("urls/url.jte", model("page", page));
+        handler.render("urls/url.jte", Map.of("page", page));
     }
 
     public static void check(Context handler) throws SQLException {

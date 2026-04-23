@@ -1,4 +1,5 @@
-import hexlet.code.App;
+package hexlet.code;
+
 import io.javalin.Javalin;
 import kong.unirest.Unirest;
 import okhttp3.mockwebserver.MockResponse;
@@ -18,13 +19,13 @@ public class CheckTest {
     private static final String TEST_TITLE_DATA = "this is title";
     private static final String TEST_DESCRIPTION_DATA = "this is description";
 
-    private String currentUrl;
-    private MockWebServer testServer;
-    private String testingUrl;
-    private Javalin app;
+    private static String currentUrl;
+    private static MockWebServer testServer;
+    private static String testingUrl;
+    private static Javalin app;
 
     @BeforeAll
-    public void initialisation() throws IOException, SQLException {
+    public static void initialisation() throws IOException, SQLException {
         app = App.getApp();
         currentUrl = String.format("http://localhost:%d", App.getPort());
 
@@ -44,14 +45,14 @@ public class CheckTest {
     }
 
     @Test
-    void simpleTest() {
+    public void simpleTest() {
         var request = Unirest.get(currentUrl).asString();
         assertEquals(200, request.getStatus());
         assertNotNull(request.getBody());
     }
 
     @Test
-    void addNewUrlForChecking() {
+    public void addNewUrlForChecking() {
         var responseAddUrl = Unirest.post(currentUrl).body("url=" + testingUrl).asString();
         var requestAddedUrl = Unirest.get(currentUrl + "/urls").asString();
 
@@ -69,7 +70,7 @@ public class CheckTest {
     }
 
     @AfterAll
-    void close() throws IOException {
+    public static void close() throws IOException {
         testServer.close();
         app.stop();
     }

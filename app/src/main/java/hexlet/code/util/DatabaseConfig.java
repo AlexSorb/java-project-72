@@ -1,8 +1,6 @@
 package hexlet.code.util;
 
 import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import hexlet.code.repository.BaseRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +18,7 @@ public class DatabaseConfig {
         }
         log.info(getDataBaseUrl());
         config.setJdbcUrl(getDataBaseUrl());
-        BaseRepository.dataSource = new HikariDataSource(config);
+
     }
 
     private static String getDriver() {
@@ -47,7 +45,19 @@ public class DatabaseConfig {
         stringBilderUrl.append("&user=");
         stringBilderUrl.append(System.getenv("USERNAME"));
 
-        return stringBilderUrl.toString();
+
+        var port = System.getenv("HOST");
+        var dbPort = System.getenv("DB_PORT");
+        var dataBase = System.getenv("DATABASE");
+        var password = System.getenv("PASSWORD");
+        var userName = System.getenv("USERNAME");
+
+        String url = String.format("jdbc:postgresql://%s:%s/%s?password=%s&user=%s",
+                port, dbPort, dataBase, password, userName);
+
+        return url;
+
+        //return stringBilderUrl.toString();
     }
 
 }
