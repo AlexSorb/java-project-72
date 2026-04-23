@@ -6,7 +6,7 @@
 # Анализатор страниц
 
 <p>
-Проект описыват сайт, который анализирует указанные страницы на SEO пригодность.
+Проект описыват сайт, который анализирует указанные страницы на SEO 
 
-[https://java-project-72-fxyv.onrender.com/](https://pageanalyzer-11io.onrender.com)
+[https://page-analyzer-011n.onrender.com](https://page-analyzer-011n.onrender.com)
 </p>
