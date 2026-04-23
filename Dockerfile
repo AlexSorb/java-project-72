@@ -6,4 +6,4 @@ COPY /app .
 
 RUN gradle installShadowDist --info
 
-CMD ./build/install/app/bin/app
+CMD ./build/install/app-shadow/bin/app
