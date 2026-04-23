@@ -28,6 +28,12 @@ public class App {
         var preferences = System.getenv();
         //hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project"));
         hikariConfig.setJdbcUrl(getDataBaseUrl());
+        try {
+            Class.forName(getDriver());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
     }
 
@@ -119,4 +125,11 @@ public class App {
         //return stringBilderUrl.toString();
     }
 
+    private static String getDriver() {
+        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
+            return "org.h2.Driver";
+        } else {
+            return "org.postgresql.Driver";
+        }
+    }
 }
