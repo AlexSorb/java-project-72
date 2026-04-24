@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UrlTest {
 
-    public final static String TEST_URL = "https://www.example.com/";
+    public static final String TEST_URL = "https://www.example.com/";
 
     /**
      * <p>
-     * Check that a single-parameter Url constructor does not initialize other fields
+     * Check that a single-parameter Url constructor does not initialize other fields.
      * </p>
      */
     @Test
