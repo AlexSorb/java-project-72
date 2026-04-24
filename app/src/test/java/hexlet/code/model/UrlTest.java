@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * <p>
  * A test class to check the correct operation of the <code>Url</code> model.
  * </p>
+ *
+ * @author Ryabinin Alexander
+ * @version 1.0
  */
 
 public class UrlTest {
