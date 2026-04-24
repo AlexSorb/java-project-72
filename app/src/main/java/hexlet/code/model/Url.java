@@ -25,6 +25,15 @@ public class Url {
     private String name;
     private LocalDateTime createdAt;
 
+    /**
+     *  Constructs a <code>Url</code> instance with only the raw URL string.
+     *  <p>
+     *  This constructor is intended for use when creating a <code>Url</code> from
+     *  user input on the website. The remaining fields are retrieved from the database.
+     *  </p>
+     *
+     * @param name the URL string used to initialize the <code>Url</code> object
+     */
     public Url(String name) {
         this.name = name;
     }
