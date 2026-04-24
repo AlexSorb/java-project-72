@@ -25,14 +25,11 @@ public class App {
     public   static HikariConfig hikariConfig = new HikariConfig();
 
     static {
-        var preferences = System.getenv();
-        //hikariConfig.setJdbcUrl(preferences.getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project"));
+        var driverName = System.getenv("JDBC_DATABASE_URL") == null
+                ? "org.h2.Driver" : "org.postgresql.Driver";
+        hikariConfig.setDriverClassName(driverName);
+
         hikariConfig.setJdbcUrl(getDataBaseUrl());
-        try {
-            Class.forName(getDriver());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
     }
@@ -95,41 +92,21 @@ public class App {
         }
     }
     private static String getDataBaseUrl() {
-        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
+        var externalVariables = System.getenv();
+
+        if (!externalVariables.containsKey("JDBC_DATABASE_URL")) {
             return "jdbc:h2:mem:project";
         }
+        var port = externalVariables.get("HOST");
+        var dbPort = externalVariables.get("DB_PORT");
+        var dataBase = externalVariables.get("DATABASE");
+        var password = externalVariables.get("PASSWORD");
+        var userName = externalVariables.get("USERNAME");
 
-        var stringBilderUrl = new StringBuilder("jdbc:postgresql://");
-        stringBilderUrl.append(System.getenv("HOST"));
-        stringBilderUrl.append(":");
-        stringBilderUrl.append(System.getenv("DB_PORT"));
-        stringBilderUrl.append("/");
-        stringBilderUrl.append(System.getenv("DATABASE"));
-        stringBilderUrl.append("?password=");
-        stringBilderUrl.append(System.getenv("PASSWORD"));
-        stringBilderUrl.append("&user=");
-        stringBilderUrl.append(System.getenv("USERNAME"));
-
-
-        var port = System.getenv("HOST");
-        var dbPort = System.getenv("DB_PORT");
-        var dataBase = System.getenv("DATABASE");
-        var password = System.getenv("PASSWORD");
-        var userName = System.getenv("USERNAME");
-
-        String url = String.format("jdbc:postgresql://%s:%s/%s?password=%s&user=%s",
+        return String.format("jdbc:postgresql://%s:%s/%s?password=%s&user=%s",
                 port, dbPort, dataBase, password, userName);
 
-        return url;
 
-        //return stringBilderUrl.toString();
     }
 
-    private static String getDriver() {
-        if (System.getenv().get("JDBC_DATABASE_URL") == null) {
-            return "org.h2.Driver";
-        } else {
-            return "org.postgresql.Driver";
-        }
-    }
 }
