@@ -2,19 +2,29 @@ package hexlet.code.model;
 
 import org.junit.jupiter.api.Test;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * <p>
+ * A test class to check the correct operation of the <code>Url</code> model.
+ * </p>
+ */
+
 public class UrlTest {
 
+    public final static String TEST_URL = "https://www.example.com/";
+
+    /**
+     * <p>
+     * Check that a single-parameter Url constructor does not initialize other fields
+     * </p>
+     */
     @Test
     public void initializationUrlOnlyName() {
-        String testUrl = "https://www.example.com/";
+        var cut = new Url(TEST_URL);
 
-        var cut = new Url(testUrl);
-
-        assertEquals(testUrl, cut.getName(), "");
+        assertEquals(TEST_URL, cut.getName(), "");
         assertNull(cut.getId(), "The id parameter must not be initialized.");
         assertNull(cut.getCreatedAt(), "The createdAt parameter must not be initialized.");
     }
