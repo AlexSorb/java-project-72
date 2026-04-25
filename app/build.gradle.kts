@@ -4,6 +4,7 @@ plugins {
     jacoco
     id("io.freefair.lombok") version "8.13"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("org.sonarqube") version "7.2.3.7755"
 }
 
 
@@ -47,5 +48,12 @@ tasks.jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
+    }
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "AlexSorb_java-project-72")
+        property("sonar.organization", "alexsorb")
     }
 }
