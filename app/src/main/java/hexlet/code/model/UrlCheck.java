@@ -32,12 +32,17 @@ public class UrlCheck {
     private LocalDateTime createdAt;
 
     /**
+     * Creates a <code>UrlCheck</code> instance containing only attribute data from the entered website.
      *
-     * @param statusCode
-     * @param title
-     * @param h1
-     * @param description
-     * @param urlId
+     * <p>
+     *     This constructor is intended for use when creating a <code>UrlCheck</code> object based on user-entered
+     *     data received from a website. The remaining fields are retrieved from the database.
+     * </p>
+     * @param statusCode The HTTP status code returned by the entered website in response to the get request.
+     * @param title The body of the title block from the entered website
+     * @param h1 The body of the first h1 lock from the entered website
+     * @param description Contains the content of the block marked with the description tag
+     * @param urlId Contains the ID of the URL being checked
      */
     public UrlCheck(int statusCode, String title, String h1, String description, Long urlId) {
         this.statusCode = statusCode;
