@@ -27,9 +27,15 @@ public class App {
     static {
         var driverName = System.getenv("JDBC_DATABASE_URL") == null
                 ? "org.h2.Driver" : "org.postgresql.Driver";
+        log.info("Used driver: {}", driverName );
+
+
         hikariConfig.setDriverClassName(driverName);
 
-        hikariConfig.setJdbcUrl(getDataBaseUrl());
+        var bdUrl = App.getDataBaseUrl();
+        hikariConfig.setJdbcUrl(bdUrl);
+        log.info("BD url: {}", hikariConfig.getJdbcUrl());
+
 
         BaseRepository.dataSource = new HikariDataSource(hikariConfig);
     }
