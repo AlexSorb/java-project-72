@@ -16,6 +16,12 @@ import java.sql.SQLException;
 public class BaseRepository {
     public static HikariDataSource dataSource;
 
+    /**
+     * Returns the database connection for further use.
+     *
+     * @return Returns the connection to the database.
+     * @throws SQLException - if you were unable to connect to the database
+     */
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
