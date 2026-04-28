@@ -14,6 +14,13 @@ import java.util.regex.Pattern;
  */
 public class Utils {
 
+    /**
+     * Returns a normalized URL
+     * @param url Entered URL from website as <code>String</code>
+     * @return Normalized URL as <code>String</code>
+     * @throws URISyntaxException Incorrect URL entered
+     * @throws MalformedURLException Incorrect URL entered
+     */
     public static String getNormalizeUrl(String url) throws URISyntaxException, MalformedURLException {
 
         if (url == null) {
