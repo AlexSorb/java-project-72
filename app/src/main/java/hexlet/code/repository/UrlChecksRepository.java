@@ -10,12 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UrlChecksRepository extends BaseRepository {
+    private static final String SQL_SAVE_QUERY = "INSERT INTO url_checks (url_id, status_code, h1, title, "
+            + "description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+
+    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY "
+            + "created_at DESC";
+
+    private static final String SQL_REMOVE_ALL_QUERY = "TRUNCATE TABLE url_checks RESTART IDENTITY";
 
     public static void save(UrlCheck urlCheck) throws SQLException {
-        String sql = "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+
         try (var connection = UrlChecksRepository.getConnection();
-             var prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             var prepareStatement = connection.prepareStatement(SQL_SAVE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
             prepareStatement.setLong(1, urlCheck.getUrlId());
             prepareStatement.setInt(2, urlCheck.getStatusCode());
@@ -38,11 +44,11 @@ public class UrlChecksRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> findById(Long urlId) throws SQLException {
-        String sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY created_at DESC";
+
         var result = new ArrayList<UrlCheck>();
 
         try (var connection = UrlChecksRepository.getConnection();
-             var prepareStatement = connection.prepareStatement(sql)) {
+             var prepareStatement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY)) {
             prepareStatement.setLong(1, urlId);
             var resultSet = prepareStatement.executeQuery();
             while (resultSet.next()) {
@@ -66,10 +72,9 @@ public class UrlChecksRepository extends BaseRepository {
     }
 
     public static void removeAll() throws SQLException {
-        String sql = "TRUNCATE TABLE url_checks RESTART IDENTITY";
         try (var connection = UrlRepository.getConnection();
              var statement = connection.createStatement()) {
-            statement.execute(sql);
+            statement.execute(SQL_REMOVE_ALL_QUERY);
         }
     }
 }
