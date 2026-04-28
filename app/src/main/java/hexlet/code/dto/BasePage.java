@@ -9,6 +9,9 @@ import lombok.Setter;
  This class is the base class for all DTO classes representing page strobes for passing
  to website pages.
  * </p>
+ *
+ * @author Ryabinin Alexander
+ * @version 1.0
  */
 @Getter
 @Setter

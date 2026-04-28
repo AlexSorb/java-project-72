@@ -14,6 +14,8 @@ import java.util.List;
  * <p>
  *     This class extends BasePage and passes data about a specific URL to a website page.
  * </p>
+ * @author Ryabinin Alexander
+ * @version 1.0
  */
 @Getter
 @AllArgsConstructor

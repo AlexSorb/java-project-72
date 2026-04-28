@@ -12,6 +12,8 @@ import java.sql.SQLException;
  * This class is a simple base class from which all repositories inherit. It stores a static
  * field with a database connection.
  * </p>
+ * @author Ryabinin Alexander
+ * @version 1.0
  */
 public class BaseRepository {
     public static HikariDataSource dataSource;
