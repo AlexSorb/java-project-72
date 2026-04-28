@@ -90,8 +90,8 @@ public class UrlChecksRepository extends BaseRepository {
     }
 
     /**
-     * Deletes all data from the database
-     * @throws SQLException If the request is incorrect
+     * Deletes all data from the database.
+     * @throws SQLException If the request is incorrect.
      */
     public static void removeAll() throws SQLException {
         try (var connection = UrlRepository.getConnection();
