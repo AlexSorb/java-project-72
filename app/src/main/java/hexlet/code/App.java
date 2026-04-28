@@ -27,7 +27,7 @@ public class App {
     static {
         var driverName = System.getenv("JDBC_DATABASE_URL") == null
                 ? "org.h2.Driver" : "org.postgresql.Driver";
-        log.info("Used driver: {}", driverName );
+        log.info("Used driver: {}", driverName);
 
 
         hikariConfig.setDriverClassName(driverName);
