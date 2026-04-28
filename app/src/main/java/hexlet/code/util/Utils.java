@@ -5,7 +5,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
+/**
+ * It is a utility class for running the application.
+ * It contains functions for normalizing URLs and retrieving data from a website page.
+ *
+ * @author Alexander Ryabinin
+ * @version 1.0
+ */
 public class Utils {
+
     public static String getNormalizeUrl(String url) throws URISyntaxException, MalformedURLException {
 
         if (url == null) {
