@@ -13,9 +13,10 @@ import java.util.regex.Pattern;
  * @version 1.0
  */
 public class Utils {
+    private static final String TEG_DESCRIPTION_REGEX = "(?<=<meta name=\"description\" content=\").+?(?=\">)";
 
     /**
-     * Returns a normalized URL
+     * Returns a normalized URL.
      * @param url Entered URL from website as <code>String</code>
      * @return Normalized URL as <code>String</code>
      * @throws URISyntaxException Incorrect URL entered
@@ -23,56 +24,38 @@ public class Utils {
      */
     public static String getNormalizeUrl(String url) throws URISyntaxException, MalformedURLException {
 
-        if (url == null) {
+        if (url == null || url.isEmpty()) {
             throw new NullPointerException("The url cannot be null");
         }
 
-        if (url.isEmpty()) {
-            return "url";
-        }
-
         String lowerCaseUrl = url.trim().toLowerCase();
-
         var objectUrl = new URI(lowerCaseUrl).toURL();
-
-        StringBuilder normalizeUrl = new StringBuilder();
-        normalizeUrl.append(objectUrl.getProtocol());
-        normalizeUrl.append("://");
-        normalizeUrl.append(objectUrl.getHost());
-
         String port = (objectUrl.getPort() != -1) ? ":" + objectUrl.getPort() : "";
-        normalizeUrl.append(port);
 
-        return normalizeUrl.toString();
+        return String.format("%s://%s%s", objectUrl.getProtocol(), objectUrl.getHost(), port);
     }
 
     public static String getDescription(String body) {
-        if (body == null) {
+        if (body == null || body.isEmpty()) {
             return "";
         }
 
-        String result = "";
-        String regex = "(?<=<meta name=\"description\" content=\").+?(?=\">)";
-        var pattern = Pattern.compile(regex);
+        var pattern = Pattern.compile(TEG_DESCRIPTION_REGEX);
         var matcher = pattern.matcher(body);
-        if (matcher.find()) {
-            result = matcher.group();
-        }
 
-        return result;
+        return matcher.find() ? matcher.group() : "";
     }
 
     public static String getDataFromHtmlTeg(String body, String htmlTeg) {
-        String result = "";
+
+        if (body == null || body.isEmpty()) {
+            return "";
+        }
+
         String regex = "<" + htmlTeg + ".*?>.*?<\\/" + htmlTeg + ">";
         var pattern = Pattern.compile(regex);
         var matcher = pattern.matcher(body);
 
-        if (matcher.find()) {
-            var substr = matcher.group();
-            result = substr.replaceAll(("<.*?>"), "");
-        }
-
-        return result;
+        return matcher.find() ? matcher.group().replaceAll(("<.*?>"), "") : "";
     }
 }
