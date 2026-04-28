@@ -8,6 +8,13 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ *  This is a DTO class for passing data to a website page.
+ *
+ * <p>
+ *     This class extends BasePage and passes data about a specific URL to a website page.
+ * </p>
+ */
 @Getter
 @AllArgsConstructor
 public class UrlPage extends BasePage {
