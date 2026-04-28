@@ -5,32 +5,29 @@
 @template.layout.page(
     page = page,
     content = @`
-        <div class="table">
-            <h1>Сайт: ${page.getUrl().getName()}</h1>
-            <table>
-              <tbody>
-                <tr>
-                  <th>ID</th>
-                  <th> ${page.getUrl().getId()}</th>
-                </tr>
-                <tr>
-                  <th>Имя</th>
-                  <th> ${page.getUrl().getName()}</th>
-                </tr>
-                <tr>
-                  <th>Дата создания</th>
-                  <th> ${page.getUrl().getCreatedAt().toString()}</th>
-                </tr>
-              </tbody>
+        <div>
+            <table data-test="url">
+                <tbody>
+                    <tr>
+                        <td>ID</td>
+                        <td>${page.getUrl().getId()}</td>
+                    </tr>
+                    <tr>
+                        <td>Имя</td>
+                        <td>${page.getUrl().getName()}</td>
+                    </tr>
+                    <tr>
+                        <td>Дата создания</td>
+                        <td>${page.getUrl().getCreatedAt().toString()}</td>
+                    </tr>
+                </tbody>
             </table>
-        <div>
-
-        <div>
-              <form>
-                    <h1>Проверки</h1>
-                    <button type="submit" formmethod="post" formaction="/urls/${page.getUrl().getId()}/checks">Запустить проверку</button>
-              </form>
         </div>
+
+        <form action="/urls/${page.getUrl().getId()}/checks" method="post">
+            <h1>Проверки</h1>
+            <input type="submit" class="btn btn-primary btn-lg ms-3 px-5 text-uppercase mx-3" value="Запустить проверку">
+        </form>
         <div class="table_checks">
                     <table>
                       <thead>
