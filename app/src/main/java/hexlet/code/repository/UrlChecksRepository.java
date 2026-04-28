@@ -9,6 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class contains functions for interacting with the database.
+ *
+ * @author Ryabinin Alexander
+ * @version 1.0
+ */
+
 public class UrlChecksRepository extends BaseRepository {
     private static final String SQL_SAVE_QUERY = "INSERT INTO url_checks (url_id, status_code, h1, title, "
             + "description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
@@ -18,6 +25,11 @@ public class UrlChecksRepository extends BaseRepository {
 
     private static final String SQL_REMOVE_ALL_QUERY = "TRUNCATE TABLE url_checks RESTART IDENTITY";
 
+    /**
+     * Saves verification data to the database.
+     * @param urlCheck URL checking
+     * @throws SQLException if the data is not saved
+     */
     public static void save(UrlCheck urlCheck) throws SQLException {
 
         try (var connection = UrlChecksRepository.getConnection();
@@ -43,6 +55,12 @@ public class UrlChecksRepository extends BaseRepository {
         }
     }
 
+    /**
+     * Searches for data in the database by ID.
+     * @param urlId ID searches in the database.
+     * @return Found check by ID
+     * @throws SQLException If the request is incorrect
+     */
     public static List<UrlCheck> findById(Long urlId) throws SQLException {
 
         var result = new ArrayList<UrlCheck>();
@@ -71,6 +89,10 @@ public class UrlChecksRepository extends BaseRepository {
         return result;
     }
 
+    /**
+     * Deletes all data from the database
+     * @throws SQLException If the request is incorrect
+     */
     public static void removeAll() throws SQLException {
         try (var connection = UrlRepository.getConnection();
              var statement = connection.createStatement()) {
