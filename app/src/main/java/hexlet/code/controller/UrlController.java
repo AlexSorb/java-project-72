@@ -39,15 +39,17 @@ public class UrlController {
                     .get();
 
             var normalizeUrl = Utils.getNormalizeUrl(urlAsString);
-
+            var url = new Url(normalizeUrl);
             if (UrlRepository.findByName(normalizeUrl).isEmpty()) {
-                UrlRepository.save(new Url(normalizeUrl));
+                UrlRepository.save(url);
                 handler.sessionAttribute("flash", "Страница успешно добавлена");
+                handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
             } else {
                 handler.sessionAttribute("flash", "Страница уже существует");
+                handler.redirect("/urls");
             }
 
-            handler.redirect(NamedRoutes.urlsPath());
+            //handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
         } catch (ValidationException exception) {
             // TO DO
             handler.sessionAttribute("flash", "Некорректный URL");

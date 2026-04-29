@@ -89,7 +89,7 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static void removeAll() throws SQLException {
-        String sql = "TRUNCATE TABLE urls RESTART IDENTITY";
+        String sql = "TRUNCATE TABLE urls RESTART IDENTITY CASCADE";
         try (var connection = UrlRepository.getConnection();
              var statement = connection.createStatement()) {
             statement.execute(sql);
