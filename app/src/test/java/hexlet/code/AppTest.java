@@ -2,7 +2,7 @@ package hexlet.code;
 
 import hexlet.code.model.Url;
 //import hexlet.code.repository.UrlRepository;
-import hexlet.code.repository.UrlChecksRepository;
+//import hexlet.code.repository.UrlChecksRepository;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
@@ -69,8 +69,10 @@ public class AppTest {
     public void createUrlTest() {
         JavalinTest.test(app, (server, client) -> {
             var requestBody = "url=https://www.example.com/";
-            var response = client.post("/urls", requestBody);
-            assertThat(response.code()).isEqualTo(302);
+            client.post("/urls", requestBody);
+
+            var response = client.get("/urls");
+            assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("https://www.example.com");
         });
     }
