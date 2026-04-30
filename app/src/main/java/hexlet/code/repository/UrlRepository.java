@@ -12,19 +12,27 @@ import java.util.Optional;
 
 /**
  * This class is used to interact with URL entities and the database.
+ * @author Ryabinin Alexander
+ * @version 1.0
  */
 public class UrlRepository extends BaseRepository {
-
+    private static final String SAVE_SQU_QUERY = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
+    /**
+     * Saves the URL to the database.
+     * @param url Saved URL
+     * @throws SQLException If the database did not return the id of the stored URL
+     */
     public static void save(Url url) throws SQLException {
-        String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (var connection = UrlRepository.getConnection();
-            var prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            var prepareStatement = connection.prepareStatement(SAVE_SQU_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatement.setString(1, url.getName());
+
             var createAt = LocalDateTime.now();
             prepareStatement.setTimestamp(2, Timestamp.valueOf(createAt));
 
             prepareStatement.executeUpdate();
             var generatedKeys = prepareStatement.getGeneratedKeys();
+
             if (generatedKeys.next()) {
                 url.setId(generatedKeys.getLong("id"));
                 url.setCreatedAt(createAt);
