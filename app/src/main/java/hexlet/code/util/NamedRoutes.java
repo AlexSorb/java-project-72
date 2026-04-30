@@ -1,5 +1,11 @@
 package hexlet.code.util;
 
+/**
+ * This is a utility class that contains functions that return the URL paths.
+ *
+ * @author Ryebinin Alexander
+ * @version 1.0
+ */
 public class NamedRoutes {
 
     public static String indexPath() {
