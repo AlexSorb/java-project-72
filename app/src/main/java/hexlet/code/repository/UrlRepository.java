@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * This class is used to interact with URL entities and the database.
+ */
 public class UrlRepository extends BaseRepository {
 
     public static void save(Url url) throws SQLException {
@@ -86,13 +88,5 @@ public class UrlRepository extends BaseRepository {
             }
         }
         return Optional.empty();
-    }
-
-    public static void removeAll() throws SQLException {
-        String sql = "TRUNCATE TABLE urls RESTART IDENTITY CASCADE";
-        try (var connection = UrlRepository.getConnection();
-             var statement = connection.createStatement()) {
-            statement.execute(sql);
-        }
     }
 }
