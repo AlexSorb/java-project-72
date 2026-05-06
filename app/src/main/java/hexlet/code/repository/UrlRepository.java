@@ -47,7 +47,7 @@ public class UrlRepository extends BaseRepository {
     }
 
     /**
-     * Finds a URL in the database by the entered ID
+     * Finds a URL in the database by the entered ID.
      * @param id ID of the searched URL
      * @return <code>Optional</code> with the found URL or an empty <code>Optional</code>
      * @throws SQLException If the request did not work
