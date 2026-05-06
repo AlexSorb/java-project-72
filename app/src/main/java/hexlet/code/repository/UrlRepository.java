@@ -17,6 +17,10 @@ import java.util.Optional;
  */
 public class UrlRepository extends BaseRepository {
     private static final String SAVE_SQU_QUERY = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
+    private static final String FIND_BY_ID_SQL_QUERY = "SELECT * FROM urls WHERE id = ?";
+    private static final String GET_ENTITIES_SQL_QUERY = "SELECT * FROM urls";
+    private static final String FIND_BY_NAME_SQL_QUERY = "SELECT * FROM urls WHERE name = ?";
+
     /**
      * Saves the URL to the database.
      * @param url Saved URL
@@ -42,10 +46,15 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
+    /**
+     * Finds a URL in the database by the entered ID
+     * @param id ID of the searched URL
+     * @return <code>Optional</code> with the found URL or an empty <code>Optional</code>
+     * @throws SQLException If the request did not work
+     */
     public static Optional<Url> findById(Long id) throws SQLException {
-        String sql = "SELECT * FROM urls WHERE id = ?";
         try (var connection = UrlRepository.getConnection();
-            var prepareStatement = connection.prepareStatement(sql)) {
+            var prepareStatement = connection.prepareStatement(FIND_BY_ID_SQL_QUERY)) {
             prepareStatement.setLong(1, id);
 
             var resultSet = prepareStatement.executeQuery();
@@ -64,12 +73,16 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
+    /**
+     * Returns all URLs from the database.
+     * @return <code>List</code> of all URLs.
+     * @throws SQLException If the request did not work
+     */
     public static List<Url> getEntities() throws SQLException {
-        String sql = "SELECT * FROM urls";
         var listUrls = new ArrayList<Url>();
 
         try (var connection = UrlRepository.getConnection(); var statement = connection.createStatement()) {
-            var resultSet = statement.executeQuery(sql);
+            var resultSet = statement.executeQuery(GET_ENTITIES_SQL_QUERY);
             while (resultSet.next()) {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
@@ -81,10 +94,15 @@ public class UrlRepository extends BaseRepository {
         return listUrls;
     }
 
+    /**
+     * Finds URL by name.
+     * @param url URL name.
+     * @return <code>Optional</code> with the found URL or an empty <code>Optional</code>
+     * @throws SQLException If the request did not work
+     */
     public static Optional<Url> findByName(String url) throws SQLException {
-        String sql = "SELECT * FROM urls WHERE name = ?";
         try (var connection = UrlRepository.getConnection();
-             var prepareStatement = connection.prepareStatement(sql)) {
+             var prepareStatement = connection.prepareStatement(FIND_BY_NAME_SQL_QUERY)) {
             prepareStatement.setString(1, url);
             var resultSet = prepareStatement.executeQuery();
 
