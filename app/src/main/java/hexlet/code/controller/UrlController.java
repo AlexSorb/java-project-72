@@ -21,6 +21,8 @@ import java.util.Map;
 
 /**
  * The class contains functions for processing requests.
+ * @author Ryabinin Alexander
+ * @version 1.0
  */
 public class UrlController {
     /**
