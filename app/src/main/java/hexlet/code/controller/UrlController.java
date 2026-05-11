@@ -19,6 +19,9 @@ import java.sql.SQLException;
 import java.util.regex.Pattern;
 import java.util.Map;
 
+/**
+ * The class contains functions for processing requests.
+ */
 public class UrlController {
     public static void index(Context context) throws SQLException {
         var listUrls = UrlRepository.getEntities();
