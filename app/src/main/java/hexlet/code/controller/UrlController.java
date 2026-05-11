@@ -23,6 +23,11 @@ import java.util.Map;
  * The class contains functions for processing requests.
  */
 public class UrlController {
+    /**
+     * Generates a page with all entered URLs.
+     * @param context The entered query
+     * @throws SQLException If the page is not rendered
+     */
     public static void index(Context context) throws SQLException {
         var listUrls = UrlRepository.getEntities();
         var page = new UrlsPage(listUrls);
@@ -31,6 +36,13 @@ public class UrlController {
         context.render("urls/urls.jte", Map.of("page", page));
     }
 
+    /**
+     * Processes URL input on the page.
+     * @param handler The entered query
+     * @throws URISyntaxException If an error occurred while normalizing the URL
+     * @throws MalformedURLException If an error occurred while normalizing the URL
+     * @throws SQLException If you were unable to save the URL
+     */
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
         try {
             var pattern = Pattern.compile("(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*");
@@ -60,6 +72,11 @@ public class UrlController {
         }
     }
 
+    /**
+     * Displays all entered URLs.
+     * @param handler The entered query
+     * @throws SQLException If the database query failed
+     */
     public static void show(Context handler) throws SQLException {
         var id = handler.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.findById(id).orElseThrow(() ->
@@ -69,6 +86,12 @@ public class UrlController {
         var page = new UrlPage(url, urlCheck);
         handler.render("urls/url.jte", Map.of("page", page));
     }
+
+    /**
+     * Performs URL checking.
+     * @param handler The entered query
+     * @throws SQLException If the database query failed
+     */
 
     public static void check(Context handler) throws SQLException {
         var id = handler.pathParamAsClass("id", Long.class).get();
