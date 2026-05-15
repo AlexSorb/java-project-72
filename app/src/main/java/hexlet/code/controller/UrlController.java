@@ -11,14 +11,12 @@ import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
-import io.javalin.validation.ValidationException;
 import kong.unirest.Unirest;
 import org.eclipse.jetty.http.HttpStatus;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 import java.util.Map;
 
 /**
@@ -43,50 +41,26 @@ public class UrlController {
     /**
      * Processes URL input on the page.
      * @param handler The entered query
-     * @throws URISyntaxException If an error occurred while normalizing the URL
-     * @throws MalformedURLException If an error occurred while normalizing the URL
-     * @throws SQLException If you were unable to save the URL
      */
-    public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
+    public static void create(Context handler) {
         try {
-//            var pattern = Pattern.compile("(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*");
-//            String urlAsString = handler.formParamAsClass("url", String.class)
-//                    .check(value -> {
-//                        var matcher = pattern.matcher(value);
-//                        return matcher.matches();
-//                    }, "Некорректный URL")
-//                    .get();
-//            var normalizeUrl = Utils.getNormalizeUrl(urlAsString);
-//            var url = new Url(normalizeUrl);
-//            var urlFind = UrlRepository.findByName(normalizeUrl);
-//
-//            if (urlFind.isEmpty()) {
-//                UrlRepository.save(url);
-//                handler.sessionAttribute("flash", "Страница успешно добавлена");
-//                handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
-//            } else {
-//                handler.sessionAttribute("flash", "Страница уже существует");
-//                handler.redirect(NamedRoutes.urlsIdPath(urlFind.get().getId()));
-//            }
-
-
             var enteredUrl = handler.formParamAsClass("url", String.class).getOrNull();
             var normalizeUrl = Utils.getNormalizeUrl(enteredUrl);
-            var url = new Url(normalizeUrl);
+            var urlInBD = UrlRepository.findByName(normalizeUrl);
+            Url url;
 
-            if (UrlRepository.findByName(url.getName()).isEmpty()) {
+            if (urlInBD.isEmpty()) {
+                url = new Url(normalizeUrl);
                 UrlRepository.save(url);
                 handler.sessionAttribute("flash", "Страница успешно добавлена");
             } else {
                 handler.sessionAttribute("flash", "Страница уже существует");
-                var savedUrl = UrlRepository.findByName(url.getName());
-                url.setId(savedUrl.get().getId());
-                url.setCreatedAt(savedUrl.get().getCreatedAt());
+                url = urlInBD.get();
             }
 
             handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
+
         } catch (Exception exception) {
-            handler.sessionAttribute("flash", "Некорректный URL");
             handler.status(HttpStatus.UNPROCESSABLE_ENTITY_422);
             var page = new BasePage();
             page.setFlash("Некорректный URL");
