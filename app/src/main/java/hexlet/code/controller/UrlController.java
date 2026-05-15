@@ -14,8 +14,6 @@ import io.javalin.http.NotFoundResponse;
 import kong.unirest.Unirest;
 import org.eclipse.jetty.http.HttpStatus;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Map;
 
