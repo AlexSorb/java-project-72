@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.BasePage;
 import hexlet.code.dto.url.UrlPage;
 import hexlet.code.dto.url.UrlsPage;
 import hexlet.code.model.UrlCheck;
@@ -12,6 +13,7 @@ import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.validation.ValidationException;
 import kong.unirest.Unirest;
+import org.eclipse.jetty.http.HttpStatus;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -47,33 +49,50 @@ public class UrlController {
      */
     public static void create(Context handler) throws URISyntaxException, MalformedURLException, SQLException {
         try {
-            var pattern = Pattern.compile("(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*");
-            String urlAsString = handler.formParamAsClass("url", String.class)
-                    .check(value -> {
-                        var matcher = pattern.matcher(value);
-                        return matcher.matches();
-                    }, "Некорректный URL")
-                    .get();
+//            var pattern = Pattern.compile("(https?):((//)|(\\\\\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*");
+//            String urlAsString = handler.formParamAsClass("url", String.class)
+//                    .check(value -> {
+//                        var matcher = pattern.matcher(value);
+//                        return matcher.matches();
+//                    }, "Некорректный URL")
+//                    .get();
+//            var normalizeUrl = Utils.getNormalizeUrl(urlAsString);
+//            var url = new Url(normalizeUrl);
+//            var urlFind = UrlRepository.findByName(normalizeUrl);
+//
+//            if (urlFind.isEmpty()) {
+//                UrlRepository.save(url);
+//                handler.sessionAttribute("flash", "Страница успешно добавлена");
+//                handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
+//            } else {
+//                handler.sessionAttribute("flash", "Страница уже существует");
+//                handler.redirect(NamedRoutes.urlsIdPath(urlFind.get().getId()));
+//            }
 
-            var normalizeUrl = Utils.getNormalizeUrl(urlAsString);
+
+            var enteredUrl = handler.formParamAsClass("url", String.class).getOrNull();
+            var normalizeUrl = Utils.getNormalizeUrl(enteredUrl);
             var url = new Url(normalizeUrl);
-            var urlFind = UrlRepository.findByName(normalizeUrl);
 
-            if (urlFind.isEmpty()) {
+            if (UrlRepository.findByName(url.getName()).isEmpty()) {
                 UrlRepository.save(url);
                 handler.sessionAttribute("flash", "Страница успешно добавлена");
-                handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
             } else {
                 handler.sessionAttribute("flash", "Страница уже существует");
-                handler.redirect(NamedRoutes.urlsIdPath(urlFind.get().getId()));
+                var savedUrl = UrlRepository.findByName(url.getName());
+                url.setId(savedUrl.get().getId());
+                url.setCreatedAt(savedUrl.get().getCreatedAt());
             }
 
-
-        } catch (ValidationException exception) {
-            // TO DO
+            handler.redirect(NamedRoutes.urlsIdPath(url.getId()));
+        } catch (Exception exception) {
             handler.sessionAttribute("flash", "Некорректный URL");
-            handler.redirect(NamedRoutes.urlsPath());
+            handler.status(HttpStatus.UNPROCESSABLE_ENTITY_422);
+            var page = new BasePage();
+            page.setFlash("Некорректный URL");
+            handler.render("index.jte", Map.of("page", page));
         }
+
     }
 
     /**
@@ -88,6 +107,7 @@ public class UrlController {
 
         var urlCheck = UrlChecksRepository.findById(id);
         var page = new UrlPage(url, urlCheck);
+        page.setFlash(handler.consumeSessionAttribute("flash"));
         handler.render("urls/url.jte", Map.of("page", page));
     }
 

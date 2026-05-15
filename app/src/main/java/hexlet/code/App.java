@@ -2,6 +2,7 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import hexlet.code.dto.BasePage;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseRepository;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -66,7 +68,7 @@ public class App {
                     handler.contentType("text/html; charset=utf-8"));
 
             javalinConfig.routes.get(NamedRoutes.indexPath(),
-                    handler -> handler.render("index.jte"));
+                    handler -> handler.render("index.jte", Map.of("page", new BasePage())));
 
             javalinConfig.routes.post(NamedRoutes.urlsPath(), UrlController::create);
             javalinConfig.routes.get(NamedRoutes.urlsPath(), UrlController::index);
