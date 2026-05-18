@@ -11,6 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UtilsTest {
     private static final String TEST_STRING = "Test text";
+    private static final String TEST_LONG_STRING = "This text exceeds two hundred characters and should be truncated." +
+            " To add missing characters, use a filler - text. Text text text text text text text text text text text " +
+            "text text text text text text text text text";
+
+    private static final String TEST_TRUNCATED_STRING = "This text exceeds two hundred characters and should be " +
+            "truncated. To add missing characters, use a filler - text. Text text text text text text text text text " +
+            "text text text text text text text text t...";
 
     private static final String FULL_URL_WITHOUT_PORT = "https://example.com/api/v1/users?status=active&sort=desc";
     private static final String SHORT_URL_WITHOUT_PORT = "https://example.com/";
@@ -68,6 +75,14 @@ public class UtilsTest {
 
         var resultNullString = Utils.getDescription(null);
         assertTrue(resultNullString.isEmpty());
+    }
+
+    @Test
+    public void getLongDescriptionTest() {
+        String bodyWithLongDescription = "<meta name=\"description\" content=\"" + TEST_LONG_STRING + "\">";
+        String cut = Utils.getDescription(bodyWithLongDescription);
+
+        assertEquals(TEST_TRUNCATED_STRING, cut);
     }
 
 }
