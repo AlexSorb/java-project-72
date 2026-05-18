@@ -58,4 +58,18 @@ public class Utils {
 
         return matcher.find() ? matcher.group().replaceAll(("<.*?>"), "") : "";
     }
+
+    /**
+     * The function truncates the entered text to 200 characters. If the text exceeds 200 characters, ... is added.
+     * @param text Entered text
+     * @return Text not exceeding 200 characters or truncated text with added ... at the end
+     */
+    private static String truncation(String text) {
+        if (text.length() <= 200) {
+            return text;
+        }
+        var placeholder = "...";
+
+        return text.substring(0, 201) + placeholder;
+    }
 }
