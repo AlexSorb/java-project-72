@@ -43,7 +43,9 @@ public class Utils {
         var pattern = Pattern.compile(TEG_DESCRIPTION_REGEX);
         var matcher = pattern.matcher(body);
 
-        return matcher.find() ? matcher.group() : "";
+        var result = matcher.find() ? matcher.group() : "";
+
+        return truncation(result);
     }
 
     public static String getDataFromHtmlTeg(String body, String htmlTeg) {
@@ -70,6 +72,6 @@ public class Utils {
         }
         var placeholder = "...";
 
-        return text.substring(0, 201) + placeholder;
+        return text.substring(0, 200) + placeholder;
     }
 }
