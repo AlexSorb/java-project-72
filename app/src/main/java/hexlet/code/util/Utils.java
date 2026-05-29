@@ -43,7 +43,9 @@ public class Utils {
         var pattern = Pattern.compile(TEG_DESCRIPTION_REGEX);
         var matcher = pattern.matcher(body);
 
-        return matcher.find() ? matcher.group() : "";
+        var result = matcher.find() ? matcher.group() : "";
+
+        return truncation(result);
     }
 
     public static String getDataFromHtmlTeg(String body, String htmlTeg) {
@@ -57,5 +59,15 @@ public class Utils {
         var matcher = pattern.matcher(body);
 
         return matcher.find() ? matcher.group().replaceAll(("<.*?>"), "") : "";
+    }
+
+    /**
+     * The function truncates the entered text to 200 characters. If the text exceeds 200 characters, ... is added.
+     * @param text Entered text
+     * @return Text not exceeding 200 characters or truncated text with added ... at the end
+     */
+    private static String truncation(String text) {
+        var placeholder = "...";
+        return text.length() <= 200 ? text : text.substring(0, 200) + placeholder;
     }
 }
