@@ -67,11 +67,7 @@ public class Utils {
      * @return Text not exceeding 200 characters or truncated text with added ... at the end
      */
     private static String truncation(String text) {
-        if (text.length() <= 200) {
-            return text;
-        }
         var placeholder = "...";
-
-        return text.substring(0, 200) + placeholder;
+        return text.length() <= 200 ? text : text.substring(0, 200) + placeholder;
     }
 }
