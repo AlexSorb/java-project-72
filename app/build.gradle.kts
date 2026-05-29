@@ -55,5 +55,6 @@ sonar {
     properties {
         property("sonar.projectKey", "AlexSorb_java-project-72")
         property("sonar.organization", "alexsorb")
+        property ("sonar.coverage.jacoco.xmlReportPaths")
     }
 }
