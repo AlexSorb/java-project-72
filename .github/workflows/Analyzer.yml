@@ -45,5 +45,5 @@ jobs:
         working-directory: ./app
 
       - name: Start Sonar
-        run: ./gradkew sonar
+        run: ./gradlew sonar
         working-directory: ./app
